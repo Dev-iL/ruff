@@ -1,6 +1,7 @@
 //! Airflow-specific rules.
 pub(crate) mod helpers;
 pub(crate) mod rules;
+pub(crate) mod task_branch_short_circuit;
 
 #[cfg(test)]
 mod tests {
@@ -25,6 +26,7 @@ mod tests {
     #[test_case(Rule::Airflow3SuggestedUpdate, Path::new("AIR311_args.py"))]
     #[test_case(Rule::Airflow3SuggestedUpdate, Path::new("AIR311_names.py"))]
     #[test_case(Rule::Airflow3SuggestedToMoveToProvider, Path::new("AIR312.py"))]
+    #[test_case(Rule::TaskBranchShortCircuit, Path::new("AIR003.py"))]
     fn rules(rule_code: Rule, path: &Path) -> Result<()> {
         let snapshot = format!("{}_{}", rule_code.noqa_code(), path.to_string_lossy());
         let diagnostics = test_path(
