@@ -107,6 +107,27 @@ def variant_kubernetes():  # AIR202
     return {"a": 1}
 
 
+# --- Decorator call-form coverage: should flag ---
+
+
+@task(retries=3)
+def call_form_with_kwarg() -> dict:  # AIR202
+    return {"x": 1}
+
+
+@task(
+    retries=3,
+    pool="default_pool",
+)
+def call_form_multiline() -> dict:  # AIR202
+    return {"x": 1}
+
+
+@task.short_circuit(trigger_rule="all_done")
+def variant_short_circuit_with_kwarg():  # AIR202
+    return {"a": 1}
+
+
 # --- Negative cases: should NOT flag ---
 
 
@@ -152,3 +173,20 @@ def sensor_returning_dict():
 
 def plain_function_returning_dict() -> dict:
     return {"x": 1}
+
+
+@task
+def nested_function_returning_dict():
+    def inner():
+        return {"x": 1}
+
+    return 42
+
+
+@task
+def nested_class_method_returning_dict():
+    class Inner:
+        def method(self):
+            return {"x": 1}
+
+    return 42

@@ -323,3 +323,63 @@ help: Add `multiple_outputs=False`
 107 |     return {"a": 1}
 108 |
 note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `@task`-decorated function relies on `multiple_outputs` inference
+   --> AIR202.py:113:1
+    |
+113 | @task(retries=3)
+    | ^^^^^^^^^^^^^^^^
+114 | def call_form_with_kwarg() -> dict:  # AIR202
+115 |     return {"x": 1}
+    |
+help: Add `multiple_outputs=True`
+110 | # --- Decorator call-form coverage: should flag ---
+111 |
+112 |
+    - @task(retries=3)
+113 + @task(multiple_outputs=True, retries=3)
+114 | def call_form_with_kwarg() -> dict:  # AIR202
+115 |     return {"x": 1}
+116 |
+note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `@task`-decorated function relies on `multiple_outputs` inference
+   --> AIR202.py:118:1
+    |
+118 | / @task(
+119 | |     retries=3,
+120 | |     pool="default_pool",
+121 | | )
+    | |_^
+122 |   def call_form_multiline() -> dict:  # AIR202
+123 |       return {"x": 1}
+    |
+help: Add `multiple_outputs=True`
+116 |
+117 |
+118 | @task(
+    -     retries=3,
+119 +     multiple_outputs=True, retries=3,
+120 |     pool="default_pool",
+121 | )
+122 | def call_form_multiline() -> dict:  # AIR202
+note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `@task`-decorated function relies on `multiple_outputs` inference
+   --> AIR202.py:126:1
+    |
+126 | @task.short_circuit(trigger_rule="all_done")
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+127 | def variant_short_circuit_with_kwarg():  # AIR202
+128 |     return {"a": 1}
+    |
+help: Add `multiple_outputs=False`
+123 |     return {"x": 1}
+124 |
+125 |
+    - @task.short_circuit(trigger_rule="all_done")
+126 + @task.short_circuit(multiple_outputs=False, trigger_rule="all_done")
+127 | def variant_short_circuit_with_kwarg():  # AIR202
+128 |     return {"a": 1}
+129 |
+note: This is an unsafe fix and may change runtime behavior
