@@ -1,0 +1,302 @@
+---
+source: crates/ruff_linter/src/rules/airflow/mod.rs
+---
+AIR202 [*] `multiple_outputs` should be explicitly specified on `@task` returning a `Mapping`
+  --> AIR202.py:16:1
+   |
+15 | # Dict literal return, no annotation -> infers False
+16 | @task
+   | ^^^^^
+17 | def no_annotation_dict():
+18 |     return {"x": 1}
+   |
+help: Add `multiple_outputs=False`
+13 | # === Positive cases ===
+14 |
+15 | # Dict literal return, no annotation -> infers False
+   - @task
+16 + @task(multiple_outputs=False)
+17 | def no_annotation_dict():
+18 |     return {"x": 1}
+19 |
+note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `multiple_outputs` should be explicitly specified on `@task` returning a `Mapping`
+  --> AIR202.py:22:1
+   |
+21 | # `-> dict` annotation -> infers True
+22 | @task
+   | ^^^^^
+23 | def annotated_dict() -> dict:
+24 |     return {"x": 1}
+   |
+help: Add `multiple_outputs=True`
+19 |
+20 |
+21 | # `-> dict` annotation -> infers True
+   - @task
+22 + @task(multiple_outputs=True)
+23 | def annotated_dict() -> dict:
+24 |     return {"x": 1}
+25 |
+note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `multiple_outputs` should be explicitly specified on `@task` returning a `Mapping`
+  --> AIR202.py:28:1
+   |
+27 | # Subscripted dict annotation -> infers True
+28 | @task
+   | ^^^^^
+29 | def annotated_dict_subscript() -> dict[str, int]:
+30 |     return {"x": 1}
+   |
+help: Add `multiple_outputs=True`
+25 |
+26 |
+27 | # Subscripted dict annotation -> infers True
+   - @task
+28 + @task(multiple_outputs=True)
+29 | def annotated_dict_subscript() -> dict[str, int]:
+30 |     return {"x": 1}
+31 |
+note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `multiple_outputs` should be explicitly specified on `@task` returning a `Mapping`
+  --> AIR202.py:34:1
+   |
+33 | # typing.Dict -> infers True
+34 | @task
+   | ^^^^^
+35 | def annotated_typing_dict() -> Dict[str, int]:
+36 |     return {"x": 1}
+   |
+help: Add `multiple_outputs=True`
+31 |
+32 |
+33 | # typing.Dict -> infers True
+   - @task
+34 + @task(multiple_outputs=True)
+35 | def annotated_typing_dict() -> Dict[str, int]:
+36 |     return {"x": 1}
+37 |
+note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `multiple_outputs` should be explicitly specified on `@task` returning a `Mapping`
+  --> AIR202.py:40:1
+   |
+39 | # typing.Mapping -> infers True
+40 | @task
+   | ^^^^^
+41 | def annotated_mapping() -> Mapping[str, int]:
+42 |     return {"x": 1}
+   |
+help: Add `multiple_outputs=True`
+37 |
+38 |
+39 | # typing.Mapping -> infers True
+   - @task
+40 + @task(multiple_outputs=True)
+41 | def annotated_mapping() -> Mapping[str, int]:
+42 |     return {"x": 1}
+43 |
+note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `multiple_outputs` should be explicitly specified on `@task` returning a `Mapping`
+  --> AIR202.py:46:1
+   |
+45 | # typing.MutableMapping -> infers True
+46 | @task
+   | ^^^^^
+47 | def annotated_mutable_mapping() -> MutableMapping[str, int]:
+48 |     return {"x": 1}
+   |
+help: Add `multiple_outputs=True`
+43 |
+44 |
+45 | # typing.MutableMapping -> infers True
+   - @task
+46 + @task(multiple_outputs=True)
+47 | def annotated_mutable_mapping() -> MutableMapping[str, int]:
+48 |     return {"x": 1}
+49 |
+note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `multiple_outputs` should be explicitly specified on `@task` returning a `Mapping`
+  --> AIR202.py:52:1
+   |
+51 | # collections.abc.Mapping (fully qualified) -> infers True
+52 | @task
+   | ^^^^^
+53 | def annotated_qualified_mapping() -> collections.abc.Mapping[str, int]:
+54 |     return {"x": 1}
+   |
+help: Add `multiple_outputs=True`
+49 |
+50 |
+51 | # collections.abc.Mapping (fully qualified) -> infers True
+   - @task
+52 + @task(multiple_outputs=True)
+53 | def annotated_qualified_mapping() -> collections.abc.Mapping[str, int]:
+54 |     return {"x": 1}
+55 |
+note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `multiple_outputs` should be explicitly specified on `@task` returning a `Mapping`
+  --> AIR202.py:58:1
+   |
+57 | # collections.OrderedDict -> infers True
+58 | @task
+   | ^^^^^
+59 | def annotated_ordered_dict() -> collections.OrderedDict:
+60 |     return {"x": 1}
+   |
+help: Add `multiple_outputs=True`
+55 |
+56 |
+57 | # collections.OrderedDict -> infers True
+   - @task
+58 + @task(multiple_outputs=True)
+59 | def annotated_ordered_dict() -> collections.OrderedDict:
+60 |     return {"x": 1}
+61 |
+note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `multiple_outputs` should be explicitly specified on `@task` returning a `Mapping`
+  --> AIR202.py:64:1
+   |
+63 | # Empty call form
+64 | @task()
+   | ^^^^^^^
+65 | def empty_call_form():
+66 |     return {"x": 1}
+   |
+help: Add `multiple_outputs=False`
+61 |
+62 |
+63 | # Empty call form
+   - @task()
+64 + @task(multiple_outputs=False)
+65 | def empty_call_form():
+66 |     return {"x": 1}
+67 |
+note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `multiple_outputs` should be explicitly specified on `@task` returning a `Mapping`
+  --> AIR202.py:70:1
+   |
+69 | # Call form with existing kwargs
+70 | @task(retries=3)
+   | ^^^^^^^^^^^^^^^^
+71 | def call_form_with_kwargs() -> dict:
+72 |     return {"x": 1}
+   |
+help: Add `multiple_outputs=True`
+67 |
+68 |
+69 | # Call form with existing kwargs
+   - @task(retries=3)
+70 + @task(multiple_outputs=True, retries=3)
+71 | def call_form_with_kwargs() -> dict:
+72 |     return {"x": 1}
+73 |
+note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `multiple_outputs` should be explicitly specified on `@task` returning a `Mapping`
+  --> AIR202.py:76:1
+   |
+75 | # Variant: @task.virtualenv
+76 | @task.virtualenv(requirements=["pandas"])
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+77 | def virtualenv_variant() -> dict:
+78 |     return {"x": 1}
+   |
+help: Add `multiple_outputs=True`
+73 |
+74 |
+75 | # Variant: @task.virtualenv
+   - @task.virtualenv(requirements=["pandas"])
+76 + @task.virtualenv(multiple_outputs=True, requirements=["pandas"])
+77 | def virtualenv_variant() -> dict:
+78 |     return {"x": 1}
+79 |
+note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `multiple_outputs` should be explicitly specified on `@task` returning a `Mapping`
+  --> AIR202.py:82:1
+   |
+81 | # Variant: @task.short_circuit returning dict literal still triggers (user chose "all variants")
+82 | @task.short_circuit
+   | ^^^^^^^^^^^^^^^^^^^
+83 | def short_circuit_variant():
+84 |     return {"go": True}
+   |
+help: Add `multiple_outputs=False`
+79 |
+80 |
+81 | # Variant: @task.short_circuit returning dict literal still triggers (user chose "all variants")
+   - @task.short_circuit
+82 + @task.short_circuit(multiple_outputs=False)
+83 | def short_circuit_variant():
+84 |     return {"go": True}
+85 |
+note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `multiple_outputs` should be explicitly specified on `@task` returning a `Mapping`
+  --> AIR202.py:88:1
+   |
+87 | # Dict comprehension
+88 | @task
+   | ^^^^^
+89 | def dict_comprehension():
+90 |     return {k: v for k, v in [("a", 1)]}
+   |
+help: Add `multiple_outputs=False`
+85 |
+86 |
+87 | # Dict comprehension
+   - @task
+88 + @task(multiple_outputs=False)
+89 | def dict_comprehension():
+90 |     return {k: v for k, v in [("a", 1)]}
+91 |
+note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `multiple_outputs` should be explicitly specified on `@task` returning a `Mapping`
+  --> AIR202.py:94:1
+   |
+93 | # Conditional returns, one of which is a dict
+94 | @task
+   | ^^^^^
+95 | def conditional_dict_return(flag: bool):
+96 |     if flag:
+   |
+help: Add `multiple_outputs=False`
+91 |
+92 |
+93 | # Conditional returns, one of which is a dict
+   - @task
+94 + @task(multiple_outputs=False)
+95 | def conditional_dict_return(flag: bool):
+96 |     if flag:
+97 |         return {"x": 1}
+note: This is an unsafe fix and may change runtime behavior
+
+AIR202 [*] `multiple_outputs` should be explicitly specified on `@task` returning a `Mapping`
+   --> AIR202.py:102:1
+    |
+101 | # Using the airflow.sdk alias
+102 | @sdk_task
+    | ^^^^^^^^^
+103 | def via_sdk_alias() -> dict:
+104 |     return {"x": 1}
+    |
+help: Add `multiple_outputs=True`
+99  |
+100 |
+101 | # Using the airflow.sdk alias
+    - @sdk_task
+102 + @sdk_task(multiple_outputs=True)
+103 | def via_sdk_alias() -> dict:
+104 |     return {"x": 1}
+105 |
+note: This is an unsafe fix and may change runtime behavior
